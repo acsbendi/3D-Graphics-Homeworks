@@ -15,10 +15,7 @@ const Scene = function(gl) {
   this.offset = new Vec2(0, 0.25);
 
   gl.enable(gl.BLEND);
-  /*gl.blendFunc(
-    gl.SRC_ALPHA,
-    gl.ONE_MINUS_SRC_ALPHA);*/
-    gl.blendFunc(gl.SRC_COLOR, gl.DST_COLOR);
+  gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
 };
 
 Scene.prototype.onUpPressed = function(){
