@@ -65,7 +65,7 @@ App.prototype.update = function() {
   if (pendingResourceNames.length === 0) {
     // animate and draw scene
     this.scene.update(this.gl, this.keysPressed);
-    this.overlay.innerHTML = "Ready.";
+    this.overlay.innerHTML = "Ready. Use the arrows to move the character and switch between movement types.";
   } else {
     this.overlay.innerHTML = "Loading: " + pendingResourceNames;
   }
