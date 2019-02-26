@@ -11,19 +11,19 @@ class Avatar extends GameObject {
 
     move(t, dt, keysPressed, gameObjects) {
         if ("A" in keysPressed && keysPressed["A"]) {
-            this.position.sub(dt / 2);
+            this.position.sub(dt * 2);
             this.orientation = Math.PI / 2;
         }
         if ("S" in keysPressed && keysPressed["S"]) {
-            this.position.sub(0, dt / 2);
+            this.position.sub(0, dt * 2);
             this.orientation = Math.PI;
         }
         if ("D" in keysPressed && keysPressed["D"]) {
-            this.position.add(dt / 2);
+            this.position.add(dt * 2);
             this.orientation = 1.5 * Math.PI;
         }
         if ("W" in keysPressed && keysPressed["W"]) {
-            this.position.add(0, dt / 2);
+            this.position.add(0, dt * 2);
             this.orientation = 0;
         }
 
@@ -57,5 +57,11 @@ class Avatar extends GameObject {
             this.orientation = 0;
         }
 
+    }
+
+    draw(camera){
+        camera.position = this.position;
+        camera.updateViewProjMatrix();
+        super.draw(camera);
     }
 }
