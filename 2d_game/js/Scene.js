@@ -48,17 +48,13 @@ const Scene = function(gl) {
   this.gameObjects.push(gameObject3);
 
 
-  let gameObject4 = new GameObject(this.mesh2);
-  gameObject4.position = new Vec3(-0.4,0.3,0);
-  gameObject4.scale = new Vec3(0.1,0.1,0.3);
-  gameObject4.move = function(t, dt,  keysPressed, gameObjects){
-    if("A" in keysPressed && keysPressed["A"]){
-      this.orientation += dt/2;
-    }
-  };
-  this.gameObjects.push(gameObject4);
+  let avatar = new Avatar(gl, this.solidProgram, this.quadGeometry);
+  this.gameObjects.push(avatar);
 
   this.camera = new OrthoCamera();
+
+  gl.enable(gl.BLEND);
+  gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 };
 
 Scene.prototype.update = function(gl, keysPressed) {

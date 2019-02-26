@@ -11,15 +11,6 @@ const GameObject = function(mesh) {
 
 GameObject.prototype.updateModelMatrix =
                               function(){
-  // feladat: this.modelMatrix beállítása
-  // scale, position, orientation alapján
-  //
-  // Mat4.prototype.set()
-  // paraméter nélkül egységmátrixot állít be
-  //
-  // rotate() hozzászoroz egy elforgatásmátrixot
-  // translate(), scale() hasonlóan működik
-  // SORREND A KOMMENTBEN DIREKT VAN KEVERVE
   this.modelMatrix.set();
   this.modelMatrix.rotate(this.orientation);
   this.modelMatrix.scale(this.scale);
