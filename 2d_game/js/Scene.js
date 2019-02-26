@@ -32,7 +32,7 @@ const Scene = function(gl) {
   this.gameObjects.push(gameObject1);
 
   let gameObject2 = new GameObject(this.mesh);
-  gameObject2.position = new Vec3(0,0,0.9);
+  gameObject2.position = new Vec3(0.6,-0.7,0);
   gameObject2.scale = new Vec3(0.2,0.1,0.1);
   gameObject2.move = function(t, dt,  keysPressed, gameObjects){
     this.position.add(dt);
@@ -49,7 +49,7 @@ const Scene = function(gl) {
 
 
   let gameObject4 = new GameObject(this.mesh2);
-  gameObject4.position = new Vec3(-0.4,0.3,0.3);
+  gameObject4.position = new Vec3(-0.4,0.3,0);
   gameObject4.scale = new Vec3(0.1,0.1,0.3);
   gameObject4.move = function(t, dt,  keysPressed, gameObjects){
     if("A" in keysPressed && keysPressed["A"]){
