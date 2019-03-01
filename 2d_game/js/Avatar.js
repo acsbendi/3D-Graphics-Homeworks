@@ -11,20 +11,17 @@ class Avatar extends GameObject {
 
     move(t, dt, keysPressed, gameObjects) {
         if ("A" in keysPressed && keysPressed["A"]) {
-            this.position.sub(dt * 2);
-            this.orientation = Math.PI / 2;
+            this.applyForce(new Vec3(-dt * 200, 0, 0));
         }
         if ("S" in keysPressed && keysPressed["S"]) {
-            this.position.sub(0, dt * 2);
-            this.orientation = Math.PI;
+            this.applyForce(new Vec3(0, -dt * 200, 0));
         }
         if ("D" in keysPressed && keysPressed["D"]) {
+            this.applyForce(new Vec3(dt * 200, 0, 0));
             this.position.add(dt * 2);
-            this.orientation = 1.5 * Math.PI;
         }
         if ("W" in keysPressed && keysPressed["W"]) {
-            this.position.add(0, dt * 2);
-            this.orientation = 0;
+            this.applyForce(new Vec3(0, dt * 200, 0));
         }
 
         if ("A" in keysPressed && keysPressed["A"] && "S" in keysPressed && keysPressed["S"] &&
@@ -57,6 +54,7 @@ class Avatar extends GameObject {
             this.orientation = 0;
         }
 
+        super.move(t, dt, keysPressed, gameObjects);
     }
 
     draw(camera){

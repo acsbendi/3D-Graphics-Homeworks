@@ -34,17 +34,13 @@ const Scene = function(gl) {
   let gameObject2 = new GameObject(this.mesh);
   gameObject2.position = new Vec3(0.6,-0.7,0);
   gameObject2.scale = new Vec3(0.2,0.1,0.1);
-  gameObject2.move = function(t, dt,  keysPressed, gameObjects){
-    this.position.add(dt);
-  };
+  gameObject2.speed = new Vec3(1,1,0);
   this.gameObjects.push(gameObject2);
 
   let gameObject3 = new GameObject(this.mesh2);
   gameObject3.position = new Vec3(0.4,0,0);
   gameObject3.scale = new Vec3(0.1,0.1,0.3);
-  gameObject3.move = function(t, dt,  keysPressed, gameObjects){
-    this.position.add(0, dt/2);
-  };
+  gameObject3.acceleration = new Vec3(10.1,60.1,0);
   this.gameObjects.push(gameObject3);
 
 
