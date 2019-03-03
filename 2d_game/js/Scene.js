@@ -10,7 +10,8 @@ const Scene = function (gl) {
 
   this.material.colorTexture.set(
     new Texture2D(gl, 'media/asteroid.png'));
-  this.material.texOffset.set(0.1, 0.4);
+  this.material.texOffset.set(0, 0);
+  this.material.texScale.set(1, 1);
   this.mesh = new Mesh(this.quadGeometry, this.material);
 
   this.timeAtFirstFrame = new Date().getTime();
@@ -26,7 +27,7 @@ const Scene = function (gl) {
     gameObject.scale = new Vec3(0.1, 0.1, 0.1);
     gameObject.move = function (t, dt, keysPressed, gameObjects) {
       this.orientation = t;
-      this.handleCollisions(gameObjects);
+      return this.handleCollisions(gameObjects);
     };
     this.gameObjects.push(gameObject);
   }
@@ -37,7 +38,7 @@ const Scene = function (gl) {
     gameObject.scale = new Vec3(0.1, 0.1, 0.1);
     gameObject.move = function (t, dt, keysPressed, gameObjects) {
       this.orientation = t;
-      this.handleCollisions(gameObjects);
+      return this.handleCollisions(gameObjects);
     };
     this.gameObjects.push(gameObject);
   }
@@ -49,7 +50,7 @@ const Scene = function (gl) {
     gameObject.scale = new Vec3(0.1, 0.1, 0.1);
     gameObject.move = function (t, dt, keysPressed, gameObjects) {
       this.orientation = t;
-      this.handleCollisions(gameObjects);
+      return this.handleCollisions(gameObjects);
     };
     this.gameObjects.push(gameObject);
   }
@@ -77,8 +78,6 @@ Scene.prototype.update = function (gl, keysPressed) {
   const t = (timeAtThisFrame - this.timeAtFirstFrame) / 1000.0;
   this.timeAtLastFrame = timeAtThisFrame;
 
-  //Uniforms.trafo.modelMatrix.set(this.modelMatrix.translate(dt/6, dt%6, 0)); 
-
   // clear the screen
   gl.clearColor(0.3, 0.0, 0.3, 1.0);
   gl.clearDepth(1.0);
@@ -86,7 +85,10 @@ Scene.prototype.update = function (gl, keysPressed) {
 
   this.solidProgram.commit();
   for (let gameObject of this.gameObjects) {
-    gameObject.move(t, dt, keysPressed, this.gameObjects);
+    let boomPosition = gameObject.move(t, dt, keysPressed, this.gameObjects);
+    if(boomPosition){
+      this.gameObjects.push(new Boom(gl, this.solidProgram, this.quadGeometry, boomPosition));
+    }
     gameObject.draw(this.camera);
   }
 };

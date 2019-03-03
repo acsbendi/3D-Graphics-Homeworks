@@ -4,6 +4,8 @@ Shader.source[document.currentScript.src.split('js/shaders/')[1]] = `#version 30
 
   out vec2 tex;
 
+  uniform vec2 texOffset;
+  uniform vec2 texScale;
   uniform struct {
 	  mat4 modelMatrix;
     mat4 modelViewProjMatrix;
@@ -11,6 +13,6 @@ Shader.source[document.currentScript.src.split('js/shaders/')[1]] = `#version 30
 
   void main(void) {
     gl_Position = vertexPosition * trafo.modelViewProjMatrix;
-    tex = vec2(vertexTexCoord);
+    tex = vec2(vertexTexCoord.x*texScale.x, vertexTexCoord.y*texScale.y) + texOffset;
   }
 `;

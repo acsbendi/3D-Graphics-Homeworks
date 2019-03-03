@@ -1,8 +1,10 @@
 class Avatar extends GameObject {
     constructor(gl, program, geometry) {
-        let material = new Material(gl, program)
-        material.colorTexture.set(new Texture2D(gl, 'media/avatar.png'))
-        let mesh = new Mesh(geometry, material)
+        let material = new Material(gl, program);
+        material.colorTexture.set(new Texture2D(gl, 'media/avatar.png'));
+        material.texOffset.set(0, 0);
+        material.texScale.set(1, 1);
+        let mesh = new Mesh(geometry, material);
         super(mesh);
 
         this.position = new Vec3(-0.4, 0.3, 0);
@@ -53,7 +55,7 @@ class Avatar extends GameObject {
             this.orientation = 0;
         }
 
-        super.move(t, dt, keysPressed, gameObjects);
+        return super.move(t, dt, keysPressed, gameObjects);
     }
 
     draw(camera){

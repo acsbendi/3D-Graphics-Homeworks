@@ -50,7 +50,7 @@ GameObject.prototype.move = function (t, dt, keysPressed, gameObjects) {
     this.acceleration = this.currentForce.over(this.mass);
     this.currentForce.set(0, 0, 0);
 
-    this.handleCollisions(gameObjects);
+    return this.handleCollisions(gameObjects);
 };
 
 GameObject.prototype.applyForce = function (force) {
@@ -59,15 +59,18 @@ GameObject.prototype.applyForce = function (force) {
 
 GameObject.prototype.handleCollisions = function (gameObjects) {
     for (let gameObject of gameObjects) {
-        if (gameObject != this && !(gameObject instanceof Avatar)) {
+        if (gameObject != this && !(gameObject instanceof Avatar) && !(gameObject instanceof Boom)) {
             let minimumDistance = this.getRadius() + gameObject.getRadius();
             let currentDistance = this.getDistanceFrom(gameObject);
             if(minimumDistance > currentDistance){
                 gameObjects.splice(gameObjects.indexOf(gameObject), 1);
                 gameObjects.splice(gameObjects.indexOf(this), 1);
+                let boomPosition = this.position.plus((gameObject.position.minus(this.position)).times(this.getRadius()));
+                return boomPosition;
             }
         }
     }
+    return null;
 }
 
 GameObject.prototype.getRadius = function () {
