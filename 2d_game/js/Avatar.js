@@ -18,7 +18,6 @@ class Avatar extends GameObject {
         }
         if ("D" in keysPressed && keysPressed["D"]) {
             this.applyForce(new Vec3(dt * 200, 0, 0));
-            this.position.add(dt * 2);
         }
         if ("W" in keysPressed && keysPressed["W"]) {
             this.applyForce(new Vec3(0, dt * 200, 0));
