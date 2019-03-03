@@ -61,4 +61,8 @@ class Avatar extends GameObject {
         camera.updateViewProjMatrix();
         super.draw(camera);
     }
+
+    handleCollisions(gameObjects){
+        //Avatar cannot collide
+    }
 }

@@ -10,7 +10,7 @@ const GameObject = function (mesh) {
     this.speed = new Vec3(0, 0, 0);
     this.mass = 1;
     this.dragConstant = 0.0634;
-    this.currentForce = new Vec3(0,0,0);
+    this.currentForce = new Vec3(0, 0, 0);
 };
 
 
@@ -40,17 +40,41 @@ GameObject.prototype.move = function (t, dt, keysPressed, gameObjects) {
     this.speed.add(this.acceleration.times(dt));
 
     let dragForce = this.speed.times(this.speed).times(this.dragConstant);
-    if(this.speed.x > 0)
+    if (this.speed.x > 0)
         dragForce.storage[0] *= -1;
-    if(this.speed.y > 0)
+    if (this.speed.y > 0)
         dragForce.storage[1] *= -1;
-    if(this.speed.z > 0)
+    if (this.speed.z > 0)
         dragForce.storage[2] *= -1;
     this.applyForce(dragForce);
     this.acceleration = this.currentForce.over(this.mass);
-    this.currentForce.set(0,0,0);
+    this.currentForce.set(0, 0, 0);
+
+    this.handleCollisions(gameObjects);
 };
 
 GameObject.prototype.applyForce = function (force) {
     this.currentForce.add(force);
+}
+
+GameObject.prototype.handleCollisions = function (gameObjects) {
+    for (let gameObject of gameObjects) {
+        if (gameObject != this && !(gameObject instanceof Avatar)) {
+            let minimumDistance = this.getRadius() + gameObject.getRadius();
+            let currentDistance = this.getDistanceFrom(gameObject);
+            if(minimumDistance > currentDistance){
+                gameObjects.splice(gameObjects.indexOf(gameObject), 1);
+                gameObjects.splice(gameObjects.indexOf(this), 1);
+            }
+        }
+    }
+}
+
+GameObject.prototype.getRadius = function () {
+    return Math.max(this.scale.x, this.scale.y);
+}
+
+GameObject.prototype.getDistanceFrom = function (otherGameObject) {
+    return Math.sqrt((this.position.x - otherGameObject.position.x) * (this.position.x - otherGameObject.position.x) +
+        (this.position.y - otherGameObject.position.y) * (this.position.y - otherGameObject.position.y));
 }
