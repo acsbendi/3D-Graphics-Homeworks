@@ -1,0 +1,11 @@
+Játék leírása:
+A játéktér közepén lévő avatart a WASD gombokkal irányíthatjuk. A mozgás furának tűnhet, ez azért van mert nem közvetlenül a pozícióját állítjuk, hanem csak egy megadott erővel hatunk rá. Az egérgomb (a bal és jobb is működik) lenyomásakor a karakter egy aszteroida lövedéket fog kilőni. Ezzel a lövedékkel elpusztíthatjuk a pályán levő többi aszteroidát, ugyanis ha találkoznak, egy robbanás kiséretében eltűnnek a pályáról. 2 lövés között legalább 1 másodpercnek kell eltelnie. A játék célja az eredeti aszteroidák elpusztítása.
+
+Megvalósított funkciók:
+-avatar
+-közeg
+-lövedék
+-tollas (avatar befordul)
+-ütközés
+-robbanás
+-kamera
