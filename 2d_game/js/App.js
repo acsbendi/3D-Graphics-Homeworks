@@ -3,6 +3,7 @@
 const App = function(canvas, overlay) {
   this.canvas = canvas;
   this.overlay = overlay;
+  this.mouseDownEnabled = true;
 
   // obtain WebGL context
   this.gl = canvas.getContext("webgl2");
@@ -38,7 +39,11 @@ App.prototype.registerEventHandlers = function() {
     this.keysPressed[keyboardMap[event.keyCode]] = false;    
   };
   this.canvas.onmousedown = (event) => {
-    //jshint unused:false
+    if(this.mouseDownEnabled){
+      this.mouseDownEnabled = false;
+      setTimeout(() => this.mouseDownEnabled = true, 1000);
+      this.scene.createNewBullet();
+    }
   };
   this.canvas.onmousemove = (event) => {
     //jshint unused:false
