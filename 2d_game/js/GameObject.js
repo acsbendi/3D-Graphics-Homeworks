@@ -9,7 +9,7 @@ const GameObject = function (mesh) {
     this.acceleration = new Vec3(0, 0, 0);
     this.speed = new Vec3(0, 0, 0);
     this.mass = 1;
-    this.dragConstant = 0.634;
+    this.dragConstant = 0.0634;
     this.currentForce = new Vec3(0,0,0);
 };
 
@@ -39,8 +39,13 @@ GameObject.prototype.move = function (t, dt, keysPressed, gameObjects) {
     this.position.add(this.speed.times(dt));
     this.speed.add(this.acceleration.times(dt));
 
-    let drawForceDirection = new Vec3(this.speed.x > 0 ? -1 : 1, this.speed.y > 0 ? -1 : 1, this.speed.z > 0 ? -1 : 1);
-    let dragForce = this.speed.times(this.speed).times(this.dragConstant).times(drawForceDirection);
+    let dragForce = this.speed.times(this.speed).times(this.dragConstant);
+    if(this.speed.x > 0)
+        dragForce.storage[0] *= -1;
+    if(this.speed.y > 0)
+        dragForce.storage[1] *= -1;
+    if(this.speed.z > 0)
+        dragForce.storage[2] *= -1;
     this.applyForce(dragForce);
     this.acceleration = this.currentForce.over(this.mass);
     this.currentForce.set(0,0,0);
