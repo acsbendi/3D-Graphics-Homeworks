@@ -4,22 +4,6 @@ const Scene = function (gl) {
   this.timeAtLastFrame = this.timeAtFirstFrame;
 
   this.gameObjects = [];
-  this.backgroundVS = new Shader(gl, gl.VERTEX_SHADER, "background_vs.essl");
-  this.backgroundFS = new Shader(gl, gl.FRAGMENT_SHADER, "background_fs.essl");
-  this.backgroundProgram = new Program(gl, this.backgroundVS, this.backgroundFS);
-  this.backgroundMaterial = new Material(gl, this.backgroundProgram);
-  this.backgroundMaterial.envTexture.set(new TextureCube(gl, [
-    "media/posx512.jpg",
-    "media/negx512.jpg",
-    "media/posy512.jpg",
-    "media/negy512.jpg",
-    "media/posz512.jpg",
-    "media/negz512.jpg",]
-  ));
-  this.quadGeometry = new QuadGeometry(gl);
-  this.backgroundMesh = new Mesh(this.quadGeometry, this.backgroundMaterial);
-  const background = new GameObject(this.backgroundMesh);
-  this.gameObjects.push(background);
 
   this.vsTrafo = new Shader(gl, gl.VERTEX_SHADER, "trafo_vs.essl");
   this.fsTextured = new Shader(gl, gl.FRAGMENT_SHADER, "textured_fs.essl");
