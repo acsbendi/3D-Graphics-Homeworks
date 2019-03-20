@@ -5,7 +5,6 @@ const Texture2D = function(gl, mediaFileUrl) {
   this.mediaFileUrl = mediaFileUrl;
   this.glTexture = gl.createTexture();
   this.image = new Image();
-  const theTexture = this;
   this.image.onload = () => this.loaded(gl);
   this.image.src = mediaFileUrl;
 };

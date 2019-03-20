@@ -9,7 +9,7 @@ const Scene = function (gl) {
   this.fsTextured = new Shader(gl, gl.FRAGMENT_SHADER, "textured_fs.essl");
   this.solidProgram = new Program(gl, this.vsTrafo, this.fsTextured);
 
-  const car = new Car(gl, this.solidProgram, new Vec3(-15, 2));
+  const car = new Car(gl, this.solidProgram);
   this.gameObjects.push(car);
 
   this.treeMaterial = new Material(gl, this.solidProgram);
@@ -19,8 +19,11 @@ const Scene = function (gl) {
   this.treeMesh = new MultiMesh(gl, "media/tree.json", [this.treeMaterial]);
 
   const tree = new GameObject(this.treeMesh);
-  tree.position.set(-1, 1);
+  tree.position.set(40, -20, -40);
   this.gameObjects.push(tree);
+
+  const road = new Road(gl, this.solidProgram);
+  this.gameObjects.push(road);
 
   this.camera = new PerspectiveCamera();
 
