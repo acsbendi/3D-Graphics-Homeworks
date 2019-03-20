@@ -9,29 +9,18 @@ const Scene = function (gl) {
   this.fsTextured = new Shader(gl, gl.FRAGMENT_SHADER, "textured_fs.essl");
   this.solidProgram = new Program(gl, this.vsTrafo, this.fsTextured);
 
-  this.carMaterial = new Material(gl, this.solidProgram);
-  this.carMaterial.colorTexture.set(
-    new Texture2D(gl, 'media/chevy/chevy.png'));
+  const car = new Car(gl, this.solidProgram, new Vec3(-15, 2));
+  this.gameObjects.push(car);
 
   this.treeMaterial = new Material(gl, this.solidProgram);
   this.treeMaterial.colorTexture.set(
     new Texture2D(gl, 'media/tree.png'));
 
-  this.treeMesh =  new MultiMesh(gl, "media/tree.json", [this.treeMaterial]);
-  this.carMesh =  new MultiMesh(gl, "media/chevy/chassis.json", [this.carMaterial]);
-  this.wheelMesh =  new MultiMesh(gl, "media/chevy/wheel.json", [this.carMaterial]);
+  this.treeMesh = new MultiMesh(gl, "media/tree.json", [this.treeMaterial]);
 
   const tree = new GameObject(this.treeMesh);
   tree.position.set(-1, 1);
   this.gameObjects.push(tree);
-  
-  const car = new GameObject(this.carMesh);
-  car.position.set(-15, 2);
-  this.gameObjects.push(car);
-
-  const wheel = new GameObject(this.wheelMesh);
-  wheel.position.set(-25, 2);
-  this.gameObjects.push(wheel);
 
   this.camera = new PerspectiveCamera();
 
