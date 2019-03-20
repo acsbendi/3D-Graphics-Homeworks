@@ -9,26 +9,29 @@ const Scene = function (gl) {
   this.fsTextured = new Shader(gl, gl.FRAGMENT_SHADER, "textured_fs.essl");
   this.solidProgram = new Program(gl, this.vsTrafo, this.fsTextured);
 
-  this.asteroidMaterial = new Material(gl, this.solidProgram);
-  this.asteroidMaterial.colorTexture.set(
-    new Texture2D(gl, 'media/asteroid.png'));
+  this.carMaterial = new Material(gl, this.solidProgram);
+  this.carMaterial.colorTexture.set(
+    new Texture2D(gl, 'media/chevy/chevy.png'));
 
-  this.landerMaterial = new Material(gl, this.solidProgram);
-  this.landerMaterial.colorTexture.set(
-    new Texture2D(gl, 'media/lander.png'));
+  this.treeMaterial = new Material(gl, this.solidProgram);
+  this.treeMaterial.colorTexture.set(
+    new Texture2D(gl, 'media/tree.png'));
 
-  this.asteroidMesh = new MultiMesh(gl, "media/sphere.json", [this.asteroidMaterial]);
-  this.landerMesh =  new MultiMesh(gl, "media/sphere.json", [this.landerMaterial]);
+  this.treeMesh =  new MultiMesh(gl, "media/tree.json", [this.treeMaterial]);
+  this.carMesh =  new MultiMesh(gl, "media/chevy/chassis.json", [this.carMaterial]);
+  this.wheelMesh =  new MultiMesh(gl, "media/chevy/wheel.json", [this.carMaterial]);
 
-  for(let i=0; i<64; i++) {
-    const asteroid = new GameObject(this.asteroidMesh);
-    asteroid.position.setRandom({x:-30, y:-30}, {x:30, y:30});
-    this.gameObjects.push(asteroid);
-  }
+  const tree = new GameObject(this.treeMesh);
+  tree.position.set(-1, 1);
+  this.gameObjects.push(tree);
+  
+  const car = new GameObject(this.carMesh);
+  car.position.set(-15, 2);
+  this.gameObjects.push(car);
 
-  const lander = new GameObject(this.landerMesh);
-  lander.position.set(-1, 1);
-  this.gameObjects.push(lander);
+  const wheel = new GameObject(this.wheelMesh);
+  wheel.position.set(-25, 2);
+  this.gameObjects.push(wheel);
 
   this.camera = new PerspectiveCamera();
 

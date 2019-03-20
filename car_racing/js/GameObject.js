@@ -19,6 +19,5 @@ GameObject.prototype.updateModelMatrix = function(){
 GameObject.prototype.draw = function(camera){ 
   this.updateModelMatrix();
   Uniforms.trafo.modelViewProjMatrix.set(this.modelMatrix).mul(camera.viewProjMatrix);
-  Uniforms.trafo.rayDirMatrix.set(camera.rayDirMatrix);
   this.mesh.draw(); 
 };
