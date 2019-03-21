@@ -40,14 +40,14 @@ Scene.prototype.update = function (gl, keysPressed) {
   var timeAtThisFrame = new Date().getTime();
   var dt = (timeAtThisFrame - this.timeAtLastFrame) / 1000.0;
   this.timeAtLastFrame = timeAtThisFrame;
-  this.camera.move(dt, keysPressed);
 
   // clear the screen
   gl.clearColor(0.6, 0.0, 0.3, 1.0);
   gl.clearDepth(1.0);
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-  this.car.move(timeAtThisFrame, dt, keysPressed, this.gameObjects);
+  this.car.move(timeAtThisFrame, dt, keysPressed, this.gameObjects, this.camera);
+  this.camera.move(dt, keysPressed);
   for (let i = 0; i < this.gameObjects.length; i++) {
     this.gameObjects[i].draw(this.camera);
   }

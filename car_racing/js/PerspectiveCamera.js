@@ -68,40 +68,41 @@ PerspectiveCamera.prototype.updateRayDirMatrix = function () {
 };
 
 PerspectiveCamera.prototype.move = function (dt, keysPressed) {
-    if (this.isDragging) {
-        this.yaw -= this.mouseDelta.x * 0.002;
-        this.pitch -= this.mouseDelta.y * 0.002;
-        if (this.pitch > 3.14 / 2.0) {
-            this.pitch = 3.14 / 2.0;
+    if(App.FREE_CAMERA_MODE){
+        if (this.isDragging) {
+            this.yaw -= this.mouseDelta.x * 0.002;
+            this.pitch -= this.mouseDelta.y * 0.002;
+            if (this.pitch > 3.14 / 2.0) {
+                this.pitch = 3.14 / 2.0;
+            }
+            if (this.pitch < -3.14 / 2.0) {
+                this.pitch = -3.14 / 2.0;
+            }
+    
+            this.mouseDelta = new Vec2(0.0, 0.0);
+            this.calculateVectors();
         }
-        if (this.pitch < -3.14 / 2.0) {
-            this.pitch = -3.14 / 2.0;
+    
+        if (keysPressed.W) {
+            this.position.addScaled(this.speed * dt, this.ahead);
         }
-
-        this.mouseDelta = new Vec2(0.0, 0.0);
-        this.calculateVectors();
-    }
-
-    if (keysPressed.W) {
-        this.position.addScaled(this.speed * dt, this.ahead);
-    }
-    if (keysPressed.S) {
-        this.position.addScaled(-this.speed * dt, this.ahead);
-    }
-    if (keysPressed.D) {
-        this.position.addScaled(this.speed * dt, this.right);
-    }
-    if (keysPressed.A) {
-        this.position.addScaled(-this.speed * dt, this.right);
-    }
-    if (keysPressed.E) {
-        this.position.addScaled(this.speed * dt, PerspectiveCamera.worldUp);
-    }
-    if (keysPressed.Q) {
-        this.position.addScaled(-this.speed * dt, PerspectiveCamera.worldUp);
-    }
-
-
+        if (keysPressed.S) {
+            this.position.addScaled(-this.speed * dt, this.ahead);
+        }
+        if (keysPressed.D) {
+            this.position.addScaled(this.speed * dt, this.right);
+        }
+        if (keysPressed.A) {
+            this.position.addScaled(-this.speed * dt, this.right);
+        }
+        if (keysPressed.E) {
+            this.position.addScaled(this.speed * dt, PerspectiveCamera.worldUp);
+        }
+        if (keysPressed.Q) {
+            this.position.addScaled(-this.speed * dt, PerspectiveCamera.worldUp);
+        }
+    }  
+    
     this.updateViewMatrix();
 };
 
