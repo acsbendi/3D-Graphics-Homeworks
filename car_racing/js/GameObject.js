@@ -12,7 +12,7 @@ const GameObject = function(mesh) {
 GameObject.prototype.updateModelMatrix = function(){ 
   this.modelMatrix.set().
     scale(this.scale).
-    rotate(this.orientation).
+    rotate(this.orientation, 0, 1, 0).
     translate(this.position);
 };
 

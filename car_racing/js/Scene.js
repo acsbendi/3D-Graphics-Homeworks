@@ -9,8 +9,8 @@ const Scene = function (gl) {
   this.fsTextured = new Shader(gl, gl.FRAGMENT_SHADER, "textured_fs.essl");
   this.solidProgram = new Program(gl, this.vsTrafo, this.fsTextured);
 
-  const car = new Car(gl, this.solidProgram);
-  this.gameObjects.push(car);
+  this.car = new Car(gl, this.solidProgram);
+  this.gameObjects.push(this.car);
 
   this.treeMaterial = new Material(gl, this.solidProgram);
   this.treeMaterial.colorTexture.set(
@@ -47,6 +47,7 @@ Scene.prototype.update = function (gl, keysPressed) {
   gl.clearDepth(1.0);
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
+  this.car.move(timeAtThisFrame, dt, keysPressed, this.gameObjects);
   for (let i = 0; i < this.gameObjects.length; i++) {
     this.gameObjects[i].draw(this.camera);
   }

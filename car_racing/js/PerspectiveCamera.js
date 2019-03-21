@@ -55,7 +55,7 @@ PerspectiveCamera.prototype.updateProjMatrix = function () {
 };
 
 PerspectiveCamera.prototype.updateRayDirMatrix = function () {
-    this.rayDirMatrix.set().translate(-this.position).mul(this.viewMatrix).mul(this.projMatrix).invert();
+    this.rayDirMatrix.set().translate(this.position).mul(this.viewMatrix).mul(this.projMatrix).invert();
 
     /*console.log(`${this.rayDirMatrix.storage[0]} ${this.rayDirMatrix.storage[1]} ${this.rayDirMatrix.storage[2]} ${this.rayDirMatrix.storage[3]}`);
     console.log(`${this.rayDirMatrix.storage[4]} ${this.rayDirMatrix.storage[5]} ${this.rayDirMatrix.storage[6]} ${this.rayDirMatrix.storage[7]}`);
