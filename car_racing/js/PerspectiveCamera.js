@@ -1,5 +1,5 @@
-const OFFSET_HEIGHT = 20; 
-const OFFSET = new Vec2(0, -20);
+const OFFSET_HEIGHT = 40; 
+const OFFSET = new Vec2(0, -40);
 
 const PerspectiveCamera = function () {
     this.position = new Vec3(0.0, 0.0, 0.0);

@@ -1,9 +1,9 @@
 const WHEEL_COUNT = 4;
 const WHEEL_OFFSETS = [
-    new Vec2(-6.5, -11.2),
-    new Vec2(6.5, -11.2),
-    new Vec2(-6.5, 14),
-    new Vec2(6.5, 14)
+    new Vec2(-6.9, -11.2),
+    new Vec2(6.9, -11.2),
+    new Vec2(-6.9, 14),
+    new Vec2(6.9, 14)
 ];
 const GROUND_LEVEL = -14.8;
 const INITIAL_POSITION = new Vec3(20, GROUND_LEVEL, -20);
@@ -29,7 +29,7 @@ class Car extends MovableGameObject {
 
         this.wheels = [];
         for(let i = 0; i < WHEEL_COUNT; ++i){
-            const wheel = new Wheel(gl, material, WHEEL_OFFSETS[i], this.position, this.orientation);
+            const wheel = new Wheel(gl, material, WHEEL_OFFSETS[i], this.position, this.orientation, i >= 2);
             this.wheels.push(wheel);
         }
     }
@@ -41,12 +41,16 @@ class Car extends MovableGameObject {
         }
         if (keysPressed.A) {
             this.orientation += dt * STEERABILITY;
+            this.wheels[2].steer(dt, true);
+            this.wheels[3].steer(dt, true);
         }
         if (keysPressed.S) {
             this.applyForce(new Vec3(-FORCE_MULTIPLIER * dt * Math.sin(this.orientation), 0, -FORCE_MULTIPLIER * dt * Math.cos(this.orientation)));
         }
         if (keysPressed.D) {
             this.orientation -= dt * STEERABILITY;
+            this.wheels[2].steer(dt, false);
+            this.wheels[3].steer(dt, false);
         }
         if (keysPressed.W) {
             this.applyForce(new Vec3(FORCE_MULTIPLIER * dt * Math.sin(this.orientation), 0, FORCE_MULTIPLIER * dt * Math.cos(this.orientation)));
@@ -56,8 +60,12 @@ class Car extends MovableGameObject {
         }
         if(this.orientation < 0){
             this.orientation = 2 * Math.PI - this.orientation;
+            this.wheels[2].parentOrientationReset(this.orientation);
+            this.wheels[3].parentOrientationReset(this.orientation);
         } else if(this.orientation > 2 * Math.PI){
             this.orientation -= 2 * Math.PI;
+            this.wheels[2].parentOrientationReset(this.orientation);
+            this.wheels[3].parentOrientationReset(this.orientation);
         }
 
         super.move(t, dt, keysPressed, gameObjects);
