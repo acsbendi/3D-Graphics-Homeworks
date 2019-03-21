@@ -1,4 +1,4 @@
-class WheelOffsetConverter{
+class OffsetConverter{
 
     constructor(originalOffset){
         this.originalOffset = originalOffset;
@@ -17,7 +17,7 @@ class WheelOffsetConverter{
         }
     }
 
-    getCurrentOffsets(parentOrientation){
+    getCurrentOffset(parentOrientation){
 
         let currentAngle = this.originalAngle + parentOrientation;
         if(currentAngle < 0){
@@ -28,12 +28,12 @@ class WheelOffsetConverter{
         let currentOffsetY = currentOffsetX * currentTangent;
 
         let currentAngleNormal = currentAngle / (2 * Math.PI);
-        if(currentAngleNormal < 0){
+        if(currentAngleNormal <= 0){
             currentAngleNormal = 1 - currentAngleNormal;
         }
-        if(currentAngleNormal > 0.25 && currentAngleNormal < 0.5){
+        if(currentAngleNormal > 0.25 && currentAngleNormal <= 0.5){
             currentOffsetX *= -1;
-        } else if(currentAngleNormal > 0.5 && currentAngleNormal < 0.75){
+        } else if(currentAngleNormal > 0.5 && currentAngleNormal <= 0.75){
             currentOffsetX *= -1;
             currentOffsetY *= -1;
         } else if(currentAngleNormal > 0.75){

@@ -20,6 +20,8 @@ const App = function(canvas, overlay) {
   this.resize();
 };
 
+App.FREE_CAMERA_MODE = false;
+
 // match WebGL rendering resolution and viewport to the canvas size
 App.prototype.resize = function() {
   this.canvas.width = this.canvas.clientWidth;
@@ -41,17 +43,20 @@ App.prototype.registerEventHandlers = function() {
     this.keysPressed[keyboardMap[event.keyCode]] = false;    
   };
   this.canvas.onmousedown = (event) => {
-    this.scene.camera.mouseDown();
+    if(App.FREE_CAMERA_MODE)
+      this.scene.camera.mouseDown();
   };
   this.canvas.onmousemove = (event) => {
-    this.scene.camera.mouseMove(event);
+    if(App.FREE_CAMERA_MODE)
+      this.scene.camera.mouseMove(event);
     event.stopPropagation();
   };
   this.canvas.onmouseout = (event) => {
     //jshint unused:false
   };
   this.canvas.onmouseup = (event) => {
-    this.scene.camera.mouseUp();
+    if(App.FREE_CAMERA_MODE)
+      this.scene.camera.mouseUp();
   };
   window.addEventListener('resize', () => this.resize() );
   window.requestAnimationFrame( () => this.update() );

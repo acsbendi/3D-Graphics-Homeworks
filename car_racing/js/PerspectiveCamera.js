@@ -1,3 +1,6 @@
+const OFFSET_HEIGHT = 20; 
+const OFFSET = new Vec2(0, -20);
+
 const PerspectiveCamera = function () {
     this.position = new Vec3(0.0, 0.0, 0.0);
     this.ahead = new Vec3(0.0, 0.0, -1.0);
@@ -5,11 +8,13 @@ const PerspectiveCamera = function () {
     this.up = new Vec3(0.0, 1.0, 0.0);
 
     this.yaw = 0.0;
-    this.pitch = 0.0;
+    this.pitch = -0.55;
     this.fov = 1.0;
     this.aspect = 1.0;
     this.nearPlane = 0.1;
     this.farPlane = 1000.0;
+
+    this.cameraOffsetConverter = new OffsetConverter(OFFSET);
 
     this.speed = 5;
 
@@ -27,6 +32,11 @@ const PerspectiveCamera = function () {
 
 PerspectiveCamera.worldUp = new Vec3(0, 1, 0);
 
+PerspectiveCamera.prototype.update = function(parentPosition, parentOrientation) {
+    let currentOffset = this.cameraOffsetConverter.getCurrentOffset(-parentOrientation);
+    this.position = parentPosition.plus(currentOffset.x, OFFSET_HEIGHT, currentOffset.y);
+    this.setOrientation(parentOrientation);
+}
 
 PerspectiveCamera.prototype.updateViewMatrix = function () {
     this.viewMatrix.set(
@@ -36,7 +46,6 @@ PerspectiveCamera.prototype.updateViewMatrix = function () {
         0, 0, 0, 1).translate(this.position).invert();
     this.viewProjMatrix.set(this.viewMatrix).mul(this.projMatrix);
     this.updateRayDirMatrix();
-
 };
 
 PerspectiveCamera.prototype.updateProjMatrix = function () {
@@ -56,11 +65,6 @@ PerspectiveCamera.prototype.updateProjMatrix = function () {
 
 PerspectiveCamera.prototype.updateRayDirMatrix = function () {
     this.rayDirMatrix.set().translate(this.position).mul(this.viewMatrix).mul(this.projMatrix).invert();
-
-    /*console.log(`${this.rayDirMatrix.storage[0]} ${this.rayDirMatrix.storage[1]} ${this.rayDirMatrix.storage[2]} ${this.rayDirMatrix.storage[3]}`);
-    console.log(`${this.rayDirMatrix.storage[4]} ${this.rayDirMatrix.storage[5]} ${this.rayDirMatrix.storage[6]} ${this.rayDirMatrix.storage[7]}`);
-    console.log(`${this.rayDirMatrix.storage[8]} ${this.rayDirMatrix.storage[9]} ${this.rayDirMatrix.storage[10]} ${this.rayDirMatrix.storage[11]}`);
-    console.log(`${this.rayDirMatrix.storage[12]} ${this.rayDirMatrix.storage[13]} ${this.rayDirMatrix.storage[14]} ${this.rayDirMatrix.storage[15]}`);*/
 };
 
 PerspectiveCamera.prototype.move = function (dt, keysPressed) {
@@ -75,15 +79,7 @@ PerspectiveCamera.prototype.move = function (dt, keysPressed) {
         }
 
         this.mouseDelta = new Vec2(0.0, 0.0);
-        this.ahead = new Vec3(
-            -Math.sin(this.yaw) * Math.cos(this.pitch),
-            Math.sin(this.pitch),
-            -Math.cos(this.yaw) * Math.cos(this.pitch));
-        this.right.setVectorProduct(
-            this.ahead,
-            PerspectiveCamera.worldUp);
-        this.right.normalize();
-        this.up.setVectorProduct(this.right, this.ahead);
+        this.calculateVectors();
     }
 
     if (keysPressed.W) {
@@ -108,6 +104,23 @@ PerspectiveCamera.prototype.move = function (dt, keysPressed) {
 
     this.updateViewMatrix();
 };
+
+PerspectiveCamera.prototype.setOrientation = function(orientation){
+    this.yaw = orientation - Math.PI;
+    this.calculateVectors();
+}
+
+PerspectiveCamera.prototype.calculateVectors = function(){
+    this.ahead = new Vec3(
+        -Math.sin(this.yaw) * Math.cos(this.pitch),
+        Math.sin(this.pitch),
+        -Math.cos(this.yaw) * Math.cos(this.pitch));
+    this.right.setVectorProduct(
+        this.ahead,
+        PerspectiveCamera.worldUp);
+    this.right.normalize();
+    this.up.setVectorProduct(this.right, this.ahead);
+}
 
 PerspectiveCamera.prototype.mouseDown = function () {
     this.isDragging = true;

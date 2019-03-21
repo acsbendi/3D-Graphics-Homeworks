@@ -5,14 +5,14 @@ class Wheel extends GameObject {
         const mesh = new MultiMesh(gl, "media/chevy/wheel.json", [material]);
         super(mesh);
 
-        this.wheelOffsetConverter = new WheelOffsetConverter(offset);
+        this.offsetConverter = new OffsetConverter(offset);
         this.update(parentPosition, parentOrientation);
     }
 
     update(parentPosition, parentOrientation){
         this.orientation = parentOrientation;
 
-        let currentOffset = this.wheelOffsetConverter.getCurrentOffsets(-parentOrientation);
+        let currentOffset = this.offsetConverter.getCurrentOffset(-parentOrientation);
         this.position.set(parentPosition.plus(currentOffset.x, VERTICAL_OFFSET, currentOffset.y));
     }
 

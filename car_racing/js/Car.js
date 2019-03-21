@@ -5,9 +5,8 @@ const WHEEL_OFFSETS = [
     new Vec2(-6.5, 14),
     new Vec2(6.5, 14)
 ];
-const CAMERA_OFFSET = new Vec3();
 const INITIAL_POSITION = new Vec3(20, -14.8, -20);
-const SPEED = 10;
+const SPEED = 30;
 const STEERABILITY = 0.5;
 const FALL_SPEED = 50;
 
@@ -57,6 +56,8 @@ class Car extends GameObject {
         }    
         if(this.orientation < 0){
             this.orientation = 2 * Math.PI - this.orientation;
+        } else if(this.orientation > 2 * Math.PI){
+            this.orientation -= 2 * Math.PI;
         }
 
         let currentPositionOnRoad = new Vec2(this.position.x, this.position.z);
@@ -66,6 +67,9 @@ class Car extends GameObject {
     }
 
     draw(camera){
+        if(!App.FREE_CAMERA_MODE){
+            camera.update(this.position, this.orientation);
+        }
         this.chassis.orientation = this.orientation;
         this.chassis.position.set(this.position);
         this.chassis.draw(camera);
