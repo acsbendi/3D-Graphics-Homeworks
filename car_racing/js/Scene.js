@@ -9,9 +9,6 @@ const Scene = function (gl) {
   this.fsTextured = new Shader(gl, gl.FRAGMENT_SHADER, "textured_fs.essl");
   this.solidProgram = new Program(gl, this.vsTrafo, this.fsTextured);
 
-  this.car = new Car(gl, this.solidProgram);
-  this.gameObjects.push(this.car);
-
   this.treeMaterial = new Material(gl, this.solidProgram);
   this.treeMaterial.colorTexture.set(
     new Texture2D(gl, 'media/tree.png'));
@@ -24,6 +21,9 @@ const Scene = function (gl) {
 
   const road = new Road(gl, this.solidProgram);
   this.gameObjects.push(road);
+
+  this.car = new Car(gl, this.solidProgram, road);
+  this.gameObjects.push(this.car);
 
   this.camera = new PerspectiveCamera();
 

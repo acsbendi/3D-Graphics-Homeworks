@@ -9,9 +9,11 @@ const CAMERA_OFFSET = new Vec3();
 const INITIAL_POSITION = new Vec3(20, -14.8, -20);
 const SPEED = 10;
 const STEERABILITY = 0.5;
+const FALL_SPEED = 50;
 
 class Car extends GameObject {
-    constructor(gl, program) {
+    
+    constructor(gl, program, road) {
         let material = new Material(gl, program);
         material.colorTexture.set(
             new Texture2D(gl, 'media/chevy/chevy.png'));
@@ -21,6 +23,8 @@ class Car extends GameObject {
         
         this.position = INITIAL_POSITION;
         this.orientation = 0;
+        this.road = road;
+        this.falling = false;
           
         this.chassis = new GameObject(chassisMesh);
         this.chassis.position.set(this.position);
@@ -34,6 +38,11 @@ class Car extends GameObject {
     }
 
     move(t, dt, keysPressed, gameObjects) {
+        if(this.falling){
+            this.position.sub(0, FALL_SPEED * dt, 0);
+            return;
+        }
+
         if ("A" in keysPressed && keysPressed["A"]) {
             this.orientation += dt * STEERABILITY;
         }
@@ -48,6 +57,11 @@ class Car extends GameObject {
         }    
         if(this.orientation < 0){
             this.orientation = 2 * Math.PI - this.orientation;
+        }
+
+        let currentPositionOnRoad = new Vec2(this.position.x, this.position.z);
+        if(!this.road.isOnRoad(currentPositionOnRoad)){
+            this.falling = true;
         }
     }
 
