@@ -7,6 +7,8 @@ const WHEEL_OFFSETS = [
 ];
 const CAMERA_OFFSET = new Vec3();
 const INITIAL_POSITION = new Vec3(20, -14.8, -20);
+const SPEED = 10;
+const STEERABILITY = 0.5;
 
 class Car extends GameObject {
     constructor(gl, program) {
@@ -33,16 +35,16 @@ class Car extends GameObject {
 
     move(t, dt, keysPressed, gameObjects) {
         if ("A" in keysPressed && keysPressed["A"]) {
-            this.orientation += dt/2;
+            this.orientation += dt * STEERABILITY;
         }
         if ("S" in keysPressed && keysPressed["S"]) {
-            this.position.sub(10 * dt * Math.sin(this.orientation), 0, 10 * dt * Math.cos(this.orientation));
+            this.position.sub(SPEED * dt * Math.sin(this.orientation), 0, SPEED * dt * Math.cos(this.orientation));
         }
         if ("D" in keysPressed && keysPressed["D"]) {
-            this.orientation -= dt/2;
+            this.orientation -= dt * STEERABILITY;
         }
         if ("W" in keysPressed && keysPressed["W"]) {
-            this.position.add(10 * dt * Math.sin(this.orientation), 0, 10 *  dt * Math.cos(this.orientation));
+            this.position.add(SPEED * dt * Math.sin(this.orientation), 0, SPEED *  dt * Math.cos(this.orientation));
         }    
         if(this.orientation < 0){
             this.orientation = 2 * Math.PI - this.orientation;
