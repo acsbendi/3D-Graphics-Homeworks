@@ -35,19 +35,23 @@ class Car extends MovableGameObject {
     }
 
     move(t, dt, keysPressed, gameObjects, camera) {
-        if ("A" in keysPressed && keysPressed["A"]) {
+        if(this.falling){
+            super.move(t, dt, keysPressed, gameObjects);
+            return;
+        }
+        if (keysPressed.A) {
             this.orientation += dt * STEERABILITY;
         }
-        if ("S" in keysPressed && keysPressed["S"]) {
+        if (keysPressed.S) {
             this.applyForce(new Vec3(-FORCE_MULTIPLIER * dt * Math.sin(this.orientation), 0, -FORCE_MULTIPLIER * dt * Math.cos(this.orientation)));
         }
-        if ("D" in keysPressed && keysPressed["D"]) {
+        if (keysPressed.D) {
             this.orientation -= dt * STEERABILITY;
         }
-        if ("W" in keysPressed && keysPressed["W"]) {
+        if (keysPressed.W) {
             this.applyForce(new Vec3(FORCE_MULTIPLIER * dt * Math.sin(this.orientation), 0, FORCE_MULTIPLIER * dt * Math.cos(this.orientation)));
         }
-        if (this.onLand && "SPACE" in keysPressed && keysPressed["SPACE"]) {
+        if (this.onLand && keysPressed.SPACE) {
             this.applyForce(new Vec3(0, JUMP_FORCE, 0));
         }
         if(this.orientation < 0){

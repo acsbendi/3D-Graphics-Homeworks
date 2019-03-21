@@ -16,7 +16,7 @@ const PerspectiveCamera = function () {
 
     this.cameraOffsetConverter = new OffsetConverter(OFFSET);
 
-    this.speed = 5;
+    this.speed = 50;
 
     this.isDragging = false;
     this.mouseDelta = new Vec2(0.0, 0.0);
@@ -83,22 +83,22 @@ PerspectiveCamera.prototype.move = function (dt, keysPressed) {
             this.calculateVectors();
         }
     
-        if (keysPressed.W) {
+        if (keysPressed.T) {
             this.position.addScaled(this.speed * dt, this.ahead);
         }
-        if (keysPressed.S) {
+        if (keysPressed.G) {
             this.position.addScaled(-this.speed * dt, this.ahead);
         }
-        if (keysPressed.D) {
+        if (keysPressed.H) {
             this.position.addScaled(this.speed * dt, this.right);
         }
-        if (keysPressed.A) {
+        if (keysPressed.F) {
             this.position.addScaled(-this.speed * dt, this.right);
         }
-        if (keysPressed.E) {
+        if (keysPressed.R) {
             this.position.addScaled(this.speed * dt, PerspectiveCamera.worldUp);
         }
-        if (keysPressed.Q) {
+        if (keysPressed.Y) {
             this.position.addScaled(-this.speed * dt, PerspectiveCamera.worldUp);
         }
     }  

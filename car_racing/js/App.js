@@ -39,7 +39,9 @@ App.prototype.registerEventHandlers = function() {
     this.keysPressed[keyboardMap[event.keyCode]] = true;
   };
   document.onkeyup = (event) => {
-    //jshint unused:false
+    if (keyboardMap[event.keyCode] == "M") {
+      App.FREE_CAMERA_MODE = !App.FREE_CAMERA_MODE;
+    }
     this.keysPressed[keyboardMap[event.keyCode]] = false;    
   };
   this.canvas.onmousedown = (event) => {
