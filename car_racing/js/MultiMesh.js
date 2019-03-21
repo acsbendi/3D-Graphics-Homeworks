@@ -8,7 +8,7 @@ const MultiMesh = function(
   request.onreadystatechange = () => { 
     if (request.readyState == 4) { 
         const meshesJson =
-                  JSON.parse(request.responseText).meshes; 
+                  JSON.parse(request.responseText).meshes;
         for (let i = 0; i < meshesJson.length; i++) { 
           this.meshes.push( new Mesh( 
            new IndexedTrianglesGeometry(

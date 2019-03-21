@@ -4,6 +4,7 @@ const Scene = function (gl) {
   this.timeAtLastFrame = this.timeAtFirstFrame;
 
   this.gameObjects = [];
+  this.movables = [];
 
   this.vsTrafo = new Shader(gl, gl.VERTEX_SHADER, "trafo_vs.essl");
   this.fsTextured = new Shader(gl, gl.FRAGMENT_SHADER, "textured_fs.essl");
@@ -24,6 +25,13 @@ const Scene = function (gl) {
 
   this.car = new Car(gl, this.solidProgram, road);
   this.gameObjects.push(this.car);
+
+  const golfBall = new Ball(gl, this.solidProgram, road, Ball.TYPE_DATA.GOLF);
+  const basketBall = new Ball(gl, this.solidProgram, road, Ball.TYPE_DATA.BASKET);
+  this.movables.push(golfBall);
+  this.movables.push(basketBall);
+  this.gameObjects.push(golfBall);
+  this.gameObjects.push(basketBall);
 
   this.camera = new PerspectiveCamera();
 
@@ -48,6 +56,9 @@ Scene.prototype.update = function (gl, keysPressed) {
 
   this.car.move(timeAtThisFrame, dt, keysPressed, this.gameObjects, this.camera);
   this.camera.move(dt, keysPressed);
+  for (let i = 0; i < this.movables.length; i++) {
+    this.movables[i].move(timeAtThisFrame, dt, keysPressed, this.gameObjects);
+  }  
   for (let i = 0; i < this.gameObjects.length; i++) {
     this.gameObjects[i].draw(this.camera);
   }

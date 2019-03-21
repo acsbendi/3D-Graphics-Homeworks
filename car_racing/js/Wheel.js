@@ -23,8 +23,6 @@ class Wheel extends GameObject {
     }
 
     steer(dt, left){
-        console.log(`parentOrientation: ${this.parentOrientation}`);
-
         if(left && this.orientation < this.parentOrientation + MAX_STEERING_ORIENTATION){
             this.orientation += dt;
         } else if(this.orientation > this.parentOrientation - MAX_STEERING_ORIENTATION) {

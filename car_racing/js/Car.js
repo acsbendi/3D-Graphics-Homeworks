@@ -14,7 +14,7 @@ const JUMP_FORCE = 15000;
 class Car extends MovableGameObject {
     
     constructor(gl, program, road) {
-        let material = new Material(gl, program);
+        const material = new Material(gl, program);
         material.colorTexture.set(
             new Texture2D(gl, 'media/chevy/chevy.png'));
         const chassisMesh = new MultiMesh(gl, "media/chevy/chassis.json", [material]);
@@ -55,7 +55,7 @@ class Car extends MovableGameObject {
         if (keysPressed.W) {
             this.applyForce(new Vec3(FORCE_MULTIPLIER * dt * Math.sin(this.orientation), 0, FORCE_MULTIPLIER * dt * Math.cos(this.orientation)));
         }
-        if (this.onLand && keysPressed.SPACE) {
+        if (this.onGround && keysPressed.SPACE) {
             this.applyForce(new Vec3(0, JUMP_FORCE, 0));
         }
         if(this.orientation < 0){

@@ -1,6 +1,7 @@
 "use strict";
 const DRAG_CONSTANT = 0.0334;
-const FALL_FORCE_MULTIPLIER = 5000;
+const GRAVITATIONAL_CONSTANT = 5000;
+const GROUND_DISTANCE_EPSILON = 0.0001;
 
 class MovableGameObject extends GameObject {
   constructor(mesh, road, groundLevel) {
@@ -14,7 +15,7 @@ class MovableGameObject extends GameObject {
     this.scale = new Vec3(1, 1, 1);
     this.modelMatrix = new Mat4();
 
-    this.onLand = true;
+    this.onGround = true;
     this.falling = false;
     this.acceleration = new Vec3(0, 0, 0);
     this.speed = new Vec3(0, 0, 0);
@@ -23,11 +24,11 @@ class MovableGameObject extends GameObject {
   }
 
   move(t, dt, keysPressed, gameObjects) {
-    if(this.position.y != this.groundLevel){
-      this.onLand = false;
+    if(Math.abs(this.position.y - this.groundLevel) > GROUND_DISTANCE_EPSILON){
+      this.onGround = false;
     }
-    if(!this.onLand){
-      this.applyForce(new Vec3(0, - dt * FALL_FORCE_MULTIPLIER, 0));
+    if(!this.onGround){
+      this.applyForce(new Vec3(0, - dt * this.mass * GRAVITATIONAL_CONSTANT, 0));
     }
 
     this.position.add(this.speed.times(dt));
@@ -44,15 +45,15 @@ class MovableGameObject extends GameObject {
     this.acceleration = this.currentForce.over(this.mass);
     this.currentForce.set(0, 0, 0);
 
-    if(this.onLand){
+    if(this.onGround){
       let currentPositionOnRoad = new Vec2(this.position.x, this.position.z);
       if(!this.road.isOnRoad(currentPositionOnRoad)){
-          this.onLand = false;
+          this.onGround = false;
       }
     } else if(!this.falling && this.position.y < this.groundLevel){
       let currentPositionOnRoad = new Vec2(this.position.x, this.position.z);
       if(this.road.isOnRoad(currentPositionOnRoad)){
-          this.onLand = true;
+          this.onGround = true;
           this.position.y = this.groundLevel;
       }else{
         this.falling = true;
