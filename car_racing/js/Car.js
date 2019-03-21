@@ -32,14 +32,26 @@ class Car extends GameObject {
     }
 
     move(t, dt, keysPressed, gameObjects) {
-        this.orientation += dt;
-        while(this.orientation > 2 * Math.PI){
-            this.orientation -= 2 * Math.PI;
+        if ("A" in keysPressed && keysPressed["A"]) {
+            this.orientation += dt/2;
+        }
+        if ("S" in keysPressed && keysPressed["S"]) {
+            this.position.sub(10 * dt * Math.sin(this.orientation), 0, 10 * dt * Math.cos(this.orientation));
+        }
+        if ("D" in keysPressed && keysPressed["D"]) {
+            this.orientation -= dt/2;
+        }
+        if ("W" in keysPressed && keysPressed["W"]) {
+            this.position.add(10 * dt * Math.sin(this.orientation), 0, 10 *  dt * Math.cos(this.orientation));
+        }    
+        if(this.orientation < 0){
+            this.orientation = 2 * Math.PI - this.orientation;
         }
     }
 
     draw(camera){
         this.chassis.orientation = this.orientation;
+        this.chassis.position.set(this.position);
         this.chassis.draw(camera);
         for(let wheel of this.wheels){
             wheel.update(this.position, this.orientation);
