@@ -1,5 +1,6 @@
 const VERTICAL_OFFSET = -3.5;
 const MAX_STEERING_ORIENTATION = 0.5;
+const ROLLING_MULTIPLIER = 0.005;
 
 class Wheel extends GameObject {
     constructor(gl, material, offset, parentPosition, parentOrientation, steerable) {
@@ -28,7 +29,7 @@ class Wheel extends GameObject {
         }
 
         if(speed){
-            this.rotation += (Math.sin(parentOrientation) * speed.x + Math.cos(parentOrientation) * speed.z) / 100;
+            this.rotation += (Math.sin(parentOrientation) * speed.x + Math.cos(parentOrientation) * speed.z) * ROLLING_MULTIPLIER;
         }
 
         let currentOffset = this.offsetConverter.getCurrentOffset(-parentOrientation);
