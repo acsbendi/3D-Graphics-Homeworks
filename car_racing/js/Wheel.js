@@ -7,15 +7,28 @@ class Wheel extends GameObject {
         super(mesh);
 
         this.steerable = steerable;
+        this.rotation = 0;
         this.offsetConverter = new OffsetConverter(offset);
         this.update(parentPosition, parentOrientation);
     }
 
-    update(parentPosition, parentOrientation){
+    updateModelMatrix(){ 
+        this.modelMatrix.set().
+          scale(this.scale).
+          rotate(this.rotation, 1, 0, 0).
+          rotate(this.orientation, 0, 1, 0).
+          translate(this.position);
+    }
+
+    update(parentPosition, parentOrientation, speed){
         if(!this.steerable){
             this.orientation = parentOrientation;
-        }else{
+        } else {
             this.parentOrientation = parentOrientation;
+        }
+
+        if(speed){
+            this.rotation += (Math.sin(parentOrientation) * speed.x + Math.cos(parentOrientation) * speed.z) / 100;
         }
 
         let currentOffset = this.offsetConverter.getCurrentOffset(-parentOrientation);

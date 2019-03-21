@@ -79,7 +79,7 @@ class Car extends MovableGameObject {
         this.chassis.position.set(this.position);
         this.chassis.draw(camera);
         for(let wheel of this.wheels){
-            wheel.update(this.position, this.orientation);
+            wheel.update(this.position, this.orientation, this.speed);
             wheel.draw(camera);
         }
     }
