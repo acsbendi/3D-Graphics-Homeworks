@@ -28,10 +28,13 @@ const Scene = function (gl) {
 
   const golfBall = new Ball(gl, this.solidProgram, road, Ball.TYPE_DATA.GOLF);
   const basketBall = new Ball(gl, this.solidProgram, road, Ball.TYPE_DATA.BASKET);
+  const stoneBall = new Ball(gl, this.solidProgram, road, Ball.TYPE_DATA.STONE);
   this.movables.push(golfBall);
   this.movables.push(basketBall);
+  this.movables.push(stoneBall);
   this.gameObjects.push(golfBall);
   this.gameObjects.push(basketBall);
+  this.gameObjects.push(stoneBall);
 
   this.camera = new PerspectiveCamera();
 

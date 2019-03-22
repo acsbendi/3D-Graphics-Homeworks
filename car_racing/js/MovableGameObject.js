@@ -1,5 +1,5 @@
 "use strict";
-const DRAG_CONSTANT = 0.0334;
+const DRAG_CONSTANT = 0.00134;
 const GRAVITATIONAL_CONSTANT = 5000;
 const GROUND_DISTANCE_EPSILON = 0.0001;
 
@@ -55,6 +55,7 @@ class MovableGameObject extends GameObject {
       if(this.road.isOnRoad(currentPositionOnRoad)){
           this.onGround = true;
           this.position.y = this.groundLevel;
+          this.speed.y = 0;
       }else{
         this.falling = true;
       }

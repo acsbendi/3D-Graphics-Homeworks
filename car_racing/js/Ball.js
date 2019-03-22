@@ -16,10 +16,12 @@ class Ball extends MovableGameObject{
         this.position.set(type.initialPosition.x, type.groundLevel, type.initialPosition.y);
         this.orientation = Math.PI / 2;
         this.scale = new Vec3(type.scale, type.scale, type.scale);
+        this.speed = new Vec3(0, 0, -100);
     }
 
     updateModelMatrix(){ 
         this.modelMatrix.set().
+          rotate(this.speed.length(), this.speed.cross(0, 1, 0)).
           scale(this.scale).
           rotate(this.orientation, 1, 0, 0).
           translate(this.position);
@@ -40,5 +42,12 @@ Ball.TYPE_DATA = {
         groundLevel: -17, 
         scale: 2,
         initialPosition: new Vec2(23, 160)
+    },
+    STONE: {
+        texturePath: 'media/stoneball/stoneball.jpg',
+        meshDescriptorPath: "media/stoneball/stoneball.json",
+        groundLevel: -9.5, 
+        scale: 12,
+        initialPosition: new Vec2(-5.5, 200)
     }
 }
