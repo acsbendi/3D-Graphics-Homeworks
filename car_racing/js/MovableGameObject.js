@@ -1,5 +1,5 @@
 "use strict";
-const DRAG_CONSTANT = 0.00134;
+const DEFAULT_DRAG_CONSTANT = 0.000134;
 const GRAVITATIONAL_CONSTANT = 5000;
 const GROUND_DISTANCE_EPSILON = 0.0001;
 
@@ -37,7 +37,7 @@ class MovableGameObject extends GameObject {
     this.position.add(this.lastTravelledDistance);
     this.speed.add(this.acceleration.times(dt));
 
-    let dragForce = this.speed.times(this.speed).times(DRAG_CONSTANT);
+    let dragForce = this.speed.times(this.speed).times(this.dragConstant || DEFAULT_DRAG_CONSTANT);
     if (this.speed.x > 0)
       dragForce.storage[0] *= -1;
     if (this.speed.y > 0)

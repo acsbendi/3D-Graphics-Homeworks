@@ -1,5 +1,3 @@
-const MASS = 0.15;
-
 class Ball extends MovableGameObject{
 
     constructor(gl, program, road, type){
@@ -12,7 +10,7 @@ class Ball extends MovableGameObject{
 
         super(mesh, road, type.groundLevel);
 
-        this.mass = MASS;
+        this.mass = type.mass;
         this.radius = type.radius;
         this.position.set(type.initialPosition.x, type.groundLevel, type.initialPosition.y);
         this.orientation = Math.PI / 2;
@@ -75,7 +73,8 @@ Ball.TYPE_DATA = {
         groundLevel: -14.7, 
         scale: BASKET_SCALE,
         initialPosition: new Vec2(-5.5, 80),
-        radius: 19 * BASKET_SCALE
+        radius: 19 * BASKET_SCALE,
+        mass: 0.15
     }, 
     GOLF: {
         texturePath: 'media/golfball/golfball.jpg',
@@ -83,7 +82,8 @@ Ball.TYPE_DATA = {
         groundLevel: -17, 
         scale: GOLF_SCALE,
         initialPosition: new Vec2(23, 160),
-        radius: 2.1176 * GOLF_SCALE
+        radius: 2.1176 * GOLF_SCALE,
+        mass: 0.1
     },
     STONE: {
         texturePath: 'media/stoneball/stoneball.jpg',
@@ -91,6 +91,7 @@ Ball.TYPE_DATA = {
         groundLevel: -9.5, 
         scale: STONE_SCALE,
         initialPosition: new Vec2(-5.5, 200),
-        radius: 1 * STONE_SCALE
+        radius: 1 * STONE_SCALE,
+        mass: 5
     }
 }

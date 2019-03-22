@@ -5,15 +5,17 @@ const WHEEL_OFFSETS = [
     new Vec2(-6.9, 14),
     new Vec2(6.9, 14)
 ];
+const MASS = 1000;
+const DRAG_CONSTANT = 10;
 const GROUND_LEVEL = -14.8;
-const INITIAL_POSITION = new Vec3(20, GROUND_LEVEL, -20);
-const FORCE_MULTIPLIER = 10000;
+const INITIAL_POSITION = new Vec3(20, GROUND_LEVEL, -320);
+const FORCE_MULTIPLIER = 3000000;
 const STEERABILITY = 0.5;
-const JUMP_FORCE = 15000;
+const JUMP_FORCE = 1500000;
 const BOUNDING_BOX_OFFSETS = {
     "MIN": new Vec2(-8.97261, -21.1391),
     "MAX": new Vec2(8.9726, 21.1391)
-}
+};
 
 class Car extends MovableGameObject {
     
@@ -29,6 +31,8 @@ class Car extends MovableGameObject {
         this.boundingBoxMinOffsetConverter = new OffsetConverter(BOUNDING_BOX_OFFSETS.MIN);
         this.boundingBoxMaxOffsetConverter = new OffsetConverter(BOUNDING_BOX_OFFSETS.MAX);
           
+        this.mass = MASS;
+        this.dragConstant = DRAG_CONSTANT;
         this.chassis = new GameObject(chassisMesh);
         this.chassis.position.set(this.position);
         this.chassis.orientation = this.orientation;
