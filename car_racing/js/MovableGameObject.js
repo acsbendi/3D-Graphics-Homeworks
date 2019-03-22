@@ -21,6 +21,7 @@ class MovableGameObject extends GameObject {
     this.speed = new Vec3(0, 0, 0);
     this.mass = 1;
     this.currentForce = new Vec3(0, 0, 0);
+    this.totalTravelledDistance = new Vec3(0, 0, 0);
   }
 
   move(t, dt, keysPressed, gameObjects) {
@@ -31,7 +32,9 @@ class MovableGameObject extends GameObject {
       this.applyForce(new Vec3(0, - dt * this.mass * GRAVITATIONAL_CONSTANT, 0));
     }
 
-    this.position.add(this.speed.times(dt));
+    this.lastTravelledDistance = this.speed.times(dt);
+    this.totalTravelledDistance.add(this.lastTravelledDistance);
+    this.position.add(this.lastTravelledDistance);
     this.speed.add(this.acceleration.times(dt));
 
     let dragForce = this.speed.times(this.speed).times(DRAG_CONSTANT);

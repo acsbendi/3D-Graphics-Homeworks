@@ -22,7 +22,7 @@ class Ball extends MovableGameObject{
 
     updateModelMatrix(){ 
         this.modelMatrix.set().
-          rotate(this.speed.length(), this.speed.cross(0, 1, 0)).
+          rotate(-1 * this.totalTravelledDistance.length() / this.radius, this.speed.cross(0, 1, 0)).
           scale(this.scale).
           rotate(this.orientation, 1, 0, 0).
           translate(this.position);
