@@ -60,7 +60,7 @@ class MovableGameObject extends GameObject {
         this.falling = true;
       }
     }
-  };
+  }
 
   applyForce(force) {
     this.currentForce.add(force);

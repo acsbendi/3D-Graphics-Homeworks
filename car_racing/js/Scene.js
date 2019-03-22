@@ -57,7 +57,7 @@ Scene.prototype.update = function (gl, keysPressed) {
   gl.clearDepth(1.0);
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-  this.car.move(timeAtThisFrame, dt, keysPressed, this.gameObjects, this.camera);
+  this.car.move(timeAtThisFrame, dt, keysPressed, this.gameObjects, this.camera, this.movables);
   this.camera.move(dt, keysPressed);
   for (let i = 0; i < this.movables.length; i++) {
     this.movables[i].move(timeAtThisFrame, dt, keysPressed, this.gameObjects);
