@@ -71,7 +71,7 @@ App.prototype.update = function() {
   if (pendingResourceNames.length === 0) {
     // animate and draw scene
     this.scene.update(this.gl, this.keysPressed);
-    this.overlay.innerHTML = "Ready.";
+    this.overlay.innerHTML = "WASD - move car.<br />SPACE - jump.<br />M - toggle free camera mode (on/off).<br />RTYFGH - move camera in free mode.";
   } else {
     this.overlay.innerHTML = "Loading: " + pendingResourceNames;
   }
