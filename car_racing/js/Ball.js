@@ -26,7 +26,7 @@ class Ball extends MovableGameObject{
           translate(this.position);
     }
 
-    
+
     checkCollision(position, radius){
         return this.position.minus(position).length() < this.radius + radius;
     }
@@ -34,7 +34,7 @@ class Ball extends MovableGameObject{
 
 const BASKET_SCALE = 0.35;
 const GOLF_SCALE = 2;
-const STONE_SCALE = 12;
+const STONE_SCALE = 10;
 
 Ball.TYPE_DATA = {
     BASKET: {
@@ -60,7 +60,7 @@ Ball.TYPE_DATA = {
         meshDescriptorPath: "media/stoneball/stoneball.json",
         groundLevel: -9.5, 
         scale: STONE_SCALE,
-        initialPosition: new Vec2(-5.5, 230),
+        initialPosition: new Vec2(23, 450),
         radius: 1 * STONE_SCALE,
         mass: 500
     }
