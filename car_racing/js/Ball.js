@@ -27,38 +27,8 @@ class Ball extends MovableGameObject{
     }
 
     
-    checkCollision(position, boundingBoxVertex1, boundingBoxVertex2){
-        let otherBoundingBoxXMax = Math.max(boundingBoxVertex1.x, boundingBoxVertex2.x);
-        let otherBoundingBoxXMin = Math.min(boundingBoxVertex1.x, boundingBoxVertex2.x);
-
-        if(this.position.x > position.x){
-            var otherClosestX = position.x + otherBoundingBoxXMax;
-            if(otherClosestX + this.radius < this.position.x){
-                return false;
-            }
-        } else {
-            var otherClosestX = position.x + otherBoundingBoxXMin;
-            if(otherClosestX - this.radius > this.position.x){
-                return false;
-            }
-        }
-
-        let otherBoundingBoxYMax = Math.max(boundingBoxVertex1.y, boundingBoxVertex2.y);
-        let otherBoundingBoxYMin = Math.min(boundingBoxVertex1.y, boundingBoxVertex2.y);
-
-        if(this.position.z > position.z){
-            var otherClosestY = position.z + otherBoundingBoxYMax;
-            if(otherClosestY + this.radius < this.position.z){
-                return false;
-            }
-        } else {
-            var otherClosestY = position.z + otherBoundingBoxYMin;
-            if(otherClosestY - this.radius > this.position.z){
-                return false;
-            }
-        }
-
-        return true;
+    checkCollision(position, radius){
+        return this.position.minus(position).length() < this.radius + radius;
     }
 }
 
@@ -90,8 +60,8 @@ Ball.TYPE_DATA = {
         meshDescriptorPath: "media/stoneball/stoneball.json",
         groundLevel: -9.5, 
         scale: STONE_SCALE,
-        initialPosition: new Vec2(-5.5, 200),
+        initialPosition: new Vec2(-5.5, 230),
         radius: 1 * STONE_SCALE,
-        mass: 5
+        mass: 500
     }
 }

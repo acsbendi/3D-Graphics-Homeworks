@@ -12,10 +12,9 @@ const INITIAL_POSITION = new Vec3(20, GROUND_LEVEL, -320);
 const FORCE_MULTIPLIER = 3000000;
 const STEERABILITY = 0.5;
 const JUMP_FORCE = 1500000;
-const BOUNDING_BOX_OFFSETS = {
-    "MIN": new Vec2(-8.97261, -21.1391),
-    "MAX": new Vec2(8.9726, 21.1391)
-};
+const MAX_X = 8.9726;
+const MAX_Y = 21.1391;
+const RADIUS = Math.max(MAX_X, MAX_Y);
 
 class Car extends MovableGameObject {
     
@@ -28,8 +27,6 @@ class Car extends MovableGameObject {
         super(undefined, road, GROUND_LEVEL);
         
         this.position = INITIAL_POSITION;
-        this.boundingBoxMinOffsetConverter = new OffsetConverter(BOUNDING_BOX_OFFSETS.MIN);
-        this.boundingBoxMaxOffsetConverter = new OffsetConverter(BOUNDING_BOX_OFFSETS.MAX);
           
         this.mass = MASS;
         this.dragConstant = DRAG_CONSTANT;
@@ -78,11 +75,11 @@ class Car extends MovableGameObject {
             this.wheels[3].parentOrientationReset(this.orientation);
         }
 
-        let currentBoundingBoxMin = this.boundingBoxMinOffsetConverter.getCurrentOffset(this.orientation);
-        let currentBoundingBoxMax = this.boundingBoxMaxOffsetConverter.getCurrentOffset(this.orientation);
-        for(let movable of movables){
-            if(movable.checkCollision(this.position, currentBoundingBoxMin, currentBoundingBoxMax)){
-                console.log("collision detected");
+        if(this.onGround){
+            for(let movable of movables){
+                if(movable.checkCollision(this.position, RADIUS)){
+                    this.handleCollision(movable);
+                }
             }
         }
         
@@ -102,4 +99,38 @@ class Car extends MovableGameObject {
         }
     }
 
+    handleCollision(otherMovable){
+        let speedOnGround = new Vec2(this.speed.x, this.speed.z);
+        let positionOnGround = new Vec2(this.position.x, this.position.z);
+        let otherSpeedOnGround = new Vec2(otherMovable.speed.x, otherMovable.speed.z);
+        let otherPositionOnGround = new Vec2(otherMovable.position.x, otherMovable.position.z);
+
+        let massRatio = 2*otherMovable.mass/(this.mass + otherMovable.mass);
+        let otherMassRatio = 2*this.mass/(this.mass + otherMovable.mass);
+
+        let positionDifference = positionOnGround.minus(otherPositionOnGround);
+        let otherPositionDifference = otherPositionOnGround.minus(positionOnGround);
+
+        let speedDotPosition = speedOnGround.minus(otherSpeedOnGround).dot(positionDifference);
+        let otherSpeedDotPosition = otherSpeedOnGround.minus(speedOnGround).dot(otherPositionDifference);
+
+        let positionLength2 = positionDifference.length2();
+        let otherPositionLength2 = otherPositionDifference.length2();
+
+        let newSpeedOnGround = speedOnGround.minus(positionDifference.times(
+            (massRatio) * 
+            (speedDotPosition / 
+            (positionLength2))));
+
+        let otherNewSpeedOnGround = otherSpeedOnGround.minus(otherPositionDifference.times(
+            (otherMassRatio) * 
+            (otherSpeedDotPosition / 
+            (otherPositionLength2))));
+
+        this.speed.x = newSpeedOnGround.x;
+        this.speed.z = newSpeedOnGround.y;
+
+        otherMovable.speed.x = otherNewSpeedOnGround.x;
+        otherMovable.speed.z = otherNewSpeedOnGround.y;
+    }
 }
